@@ -1,7 +1,6 @@
 import cv2
 import time
 
-
 video = cv2.VideoCapture(1)
 time.sleep(1)
 
@@ -16,9 +15,9 @@ while True:
         first_frame = gray_frame_gau
 
     delta_frame = cv2.absdiff(first_frame, gray_frame_gau)
-    cv2.imshow("My Video", delta_frame)
 
-    thresh_frame = cv2.threshold(delta_frame, 25, 255, cv2.THRESH_BINARY)
+    thresh_frame = cv2.threshold(delta_frame, 70, 255, cv2.THRESH_BINARY)[1]
+    cv2.imshow("My Video", thresh_frame)
 
     key = cv2.waitKey(1)
 
