@@ -22,6 +22,14 @@ while True:
 
     contours, check = cv2.findContours(dil_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
+    for contour in contours:
+        if cv2.contourArea(contour) < 10000:
+            continue
+        x, y, w, h = cv2.boundingRect(contour)
+        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0))
+
+    cv2.imshow("video", frame)
+
     key = cv2.waitKey(1)
 
     if key == ord("q"):
