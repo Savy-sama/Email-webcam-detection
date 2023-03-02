@@ -1,8 +1,9 @@
 import smtplib
 import imghdr
 from email.message import EmailMessage
+import os
 
-password = "rgvapbnxbpqyqdax"
+password = os.environ.get("PASSWORD")
 sender_mail = "saurabhpython1@gmail.com"
 receiver_mail = "saurabhpython1@gmail.com"
 
