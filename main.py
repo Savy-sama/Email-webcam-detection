@@ -3,6 +3,7 @@ import os
 import cv2
 import time
 from mailing import send_email
+from threading import Thread
 
 video = cv2.VideoCapture(1)
 time.sleep(1)
@@ -13,9 +14,11 @@ count = 1
 
 
 def clean_folder():
+    print("Clean_folder function started")
     images = glob.glob("images/*png")
     for image in images:
         os.remove(image)
+    print("Clean_folder function ended")
 
 
 while True:
@@ -35,7 +38,7 @@ while True:
     contours, check = cv2.findContours(dil_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     for contour in contours:
-        if cv2.contourArea(contour) < 1000:
+        if cv2.contourArea(contour) < 2500:
             continue
 
         x, y, w, h = cv2.boundingRect(contour)
@@ -50,10 +53,13 @@ while True:
 
     status_list.append(status)
     status_list = status_list[-2:]
+    print(status_list)
 
     if status_list[0] == 1 and status_list[1] == 0:
-        send_email(image_with_object)
-        clean_folder()
+        email_thread = Thread(target=send_email(image_with_object), args=(image_with_object,))
+        email_thread.daemon = True
+
+        email_thread.start()
 
     cv2.imshow("video", frame)
 
@@ -63,3 +69,6 @@ while True:
         break
 
 video.release()
+clean_thread = Thread(target=clean_folder())
+clean_thread.daemon = True
+clean_thread.start()

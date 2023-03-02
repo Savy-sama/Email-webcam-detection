@@ -9,6 +9,7 @@ receiver_mail = "saurabhpython1@gmail.com"
 
 
 def send_email(image_path):
+    print("send_mail function started")
     email_message = EmailMessage()
     email_message["Subject"] = "Movement Detected"
     email_message.set_content("Someone was caught on cam!")
@@ -23,3 +24,4 @@ def send_email(image_path):
     gmail.login(sender_mail, password)
     gmail.sendmail(sender_mail, receiver_mail, email_message.as_string())
     gmail.quit()
+    print("Clean_folder function ended")
